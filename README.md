@@ -12,3 +12,8 @@ This project is a simple React Native app that has authentication (signin, signu
  ngrok - used to make sure phone is communciateing with localserver
      - need to restart ngrok and put new URL into axios baseURL 
      - execute 'ngrok  http 3000' and get URL from 'FORWARDING'
+
+Use react-native-async-storage to save token
+ - import AsyncStorage from '@react-native-async-storage/async-storage';
+
+ NavigationRef - used to get access to navigator (only screen files has prop.navigation.  Context doesn't have that.  so use this)
