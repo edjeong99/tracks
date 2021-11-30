@@ -8,3 +8,7 @@ This project is a simple React Native app that has authentication (signin, signu
 'react-native-element' for styling
 
  KeyboardAvoidingView, ScrollView to avoid keyboard pushing up screen (keep screen as before)
+
+ ngrok - used to make sure phone is communciateing with localserver
+     - need to restart ngrok and put new URL into axios baseURL 
+     - execute 'ngrok  http 3000' and get URL from 'FORWARDING'
