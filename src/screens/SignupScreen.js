@@ -3,14 +3,19 @@ import { View, StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native
 import { Context as AuthContext } from '../context/AuthContext';
 import AuthForm from '../components/AuthForm'
 import NavLink from '../components/NavLink';
+import { NavigationEvents } from 'react-navigation';
+
 const SignupScreen = ({ navigation }) => {
    
-    const { state, signup } = useContext(AuthContext);
+    const { state, signup, clearErrorMessage } = useContext(AuthContext);
 
     return (
         <KeyboardAvoidingView >
             <ScrollView contentContainerStyle={styles.contentContainerStyle}>
                 <View style={styles.container}>
+                <NavigationEvents 
+                onWillFocus={clearErrorMessage} 
+                />
                     <AuthForm 
                     headerText = "Sign Up for Tracker"
                     errorMessage = {state.errorMessage}

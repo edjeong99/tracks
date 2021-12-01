@@ -7,19 +7,26 @@ const authReducer = (state, action) => {
     switch (action.type) {
       case "add_error":
         return { ...state, errorMessage: action.payload };
-      case "signup":
-        return { errorMessage: "", token: action.payload };
+      case "signin":
+          return { errorMessage: "", token: action.payload };
+      case "clear_error_message":
+        return { ...state, errorMessage:''}
       default:
         return state;
     }
   };
  
-
+const clearErrorMessage = dispatch => () => {
+  console.log("clearError");
+  dispatch({
+    type:"clear_error_message"
+  })
+}
   const signup = (dispatch) => async ({ email, password }) => {
     try {
       const response = await trackerApi.post("/signup", { email, password });
       await AsyncStorage.setItem("token", response.data.token);
-      dispatch({ type: "signup", payload: response.data.token });
+      dispatch({ type: "signin", payload: response.data.token });
   console.log(response);
       navigate("TrackList");
     } catch (err) {
@@ -32,15 +39,22 @@ const authReducer = (state, action) => {
     
 
 
-const signin = (dispatch) =>{
-    return ({email, password}) => {
-        // make api request to signin
+const signin = (dispatch) =>async ({ email, password }) => {
+     try{
+      const response = await trackerApi.post("/signin", { email, password });
+      console.log(response);
+      await AsyncStorage.setItem("token", response.data.token);
+      dispatch({ type: "signin", payload: response.data.token });
+      navigate("TrackList");
+     }catch(err){
+       console.log(err);
+        dispatch({
+          type:'add_error',
+          payload: "Something went wrong with sign in",
+        })
+     }
 
-        // if signin successful, modify state and say we are authenticated
-
-        // if signin fail, show error message
-
-    }
+    
 }
 const signout = (dispatch) =>{
     return () => {
@@ -49,9 +63,12 @@ const signout = (dispatch) =>{
     }
 }
 
+
 export const { Provider, Context } = createDataContext(
     authReducer,
-    { signin, signout, signup },
+    { signin, signout, signup, clearErrorMessage },
     { token: null, errorMessage: "" }
   );
   
+
+ 
