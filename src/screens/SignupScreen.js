@@ -44,10 +44,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         // marginBottom: 200
     },
-  
-    link: {
-        color: 'blue'
-    }
 });
 
 export default SignupScreen;
