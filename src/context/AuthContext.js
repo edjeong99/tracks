@@ -1,34 +1,34 @@
 import createDataContext from './createDataContext';
-import trackerApi from '../api/tracker'
+import trackerApi from '../api/tracker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { navigate } from "../navigationRef";
 
 const authReducer = (state, action) => {
-  switch (action.type) {
-    case 'add_error':
-        return {...state, errorMessage: action.payload};
-    case 'signup':
-            return {token:action.payload, errorMessage: ''};
-    default:
-      return state;
-  }
-};
+    switch (action.type) {
+      case "add_error":
+        return { ...state, errorMessage: action.payload };
+      case "signup":
+        return { errorMessage: "", token: action.payload };
+      default:
+        return state;
+    }
+  };
  
 
-const signup = dispatch => async ({email, password}) => {
-    try{ 
-            // make api request to signup
-            const response = await trackerApi.post('./signup', {email, password});
-            //console.log(response.data);
-          // if signup successful, modify state and say we are authenticated
-            await AsyncStorage.setItem('token', response.data.token);
-            dispatch({type:'signup', payload:response.data.token})
-
-            //navigate to main flow
-        } catch(err){   // if singup fail, show error message
-         //   console.log(err.response.data);
-         dispatch({type:'add_error', payload:"Error with Sign Up"})
-        }
+  const signup = (dispatch) => async ({ email, password }) => {
+    try {
+      const response = await trackerApi.post("/signup", { email, password });
+      await AsyncStorage.setItem("token", response.data.token);
+      dispatch({ type: "signup", payload: response.data.token });
+  console.log(response);
+      navigate("TrackList");
+    } catch (err) {
+      dispatch({
+        type: "add_error",
+        payload: "Something went wrong with sign up",
+      });
     }
+  };
     
 
 
@@ -50,7 +50,8 @@ const signout = (dispatch) =>{
 }
 
 export const { Provider, Context } = createDataContext(
-  authReducer,
-  {signin, signup, signout},
-  {errorMessage:'', token:null }
-);
+    authReducer,
+    { signin, signout, signup },
+    { token: null, errorMessage: "" }
+  );
+  
