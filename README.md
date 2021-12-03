@@ -19,3 +19,7 @@ Use react-native-async-storage to save token
  NavigationRef - used to get access to navigator (only screen files has prop.navigation.  Context doesn't have that.  so use this)
 
  NavigationEvents  - listen for navigation and then clear errorMessage
+
+
+
+login/pass :  t@t.t,  t
