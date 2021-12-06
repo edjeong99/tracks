@@ -21,5 +21,5 @@ Use react-native-async-storage to save token
  NavigationEvents  - listen for navigation and then clear errorMessage
 
 
-
+to install dependecy use - npx expo-cli install "dependecy name"
 login/pass :  t@t.t,  t
